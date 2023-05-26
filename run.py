@@ -7,7 +7,7 @@ import time
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG, filename="log.txt", filemode="a+",
+    logging.basicConfig(level=logging.INFO, filename="log.txt", filemode="a+",
                         format="%(asctime)-15s %(levelname)-8s %(message)s")
 
     logging.info("Hello, World!")
@@ -27,7 +27,7 @@ def main():
             'deviceId': device_id,
             'temperature': sensor_data[0][0],
             'relativeHumidity': sensor_data[0][1],
-            'soilHumidity': sensor_data[1][7],
+            'soilHumidity': sensor_data[1][6],
             'imageBase64': image_b64
         }
         client.post('log/write', req)

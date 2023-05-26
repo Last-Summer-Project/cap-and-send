@@ -64,7 +64,7 @@ class Cam:
             if not ret:
                 logging.error("Image not encoded")
                 return
-            b64 = base64.b64encode(buff)
+            b64 = base64.b64encode(buff).decode('utf-8')
             b64 = "data:image/jpeg;base64," + b64
             return b64
 

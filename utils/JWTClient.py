@@ -49,7 +49,7 @@ class JWTClient:
     def get_endpoint(self, endpoint):
         if self.base_endpoint not in str(endpoint):
             endpoint = f"{self.base_endpoint}/{endpoint}"
-        return endpoint.replace("//", "/")
+        return endpoint.replace("//", "/").replace("http:/", "http://")
 
     def perform_auth(self):
         endpoint = f"{self.base_endpoint}/auth/login"
