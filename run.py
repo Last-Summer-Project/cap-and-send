@@ -6,9 +6,23 @@ from utils.JWTClient import JWTClient
 import time
 
 
+def setup_log():
+    log_formatter = logging.Formatter("%(asctime)-15s %(levelname)-8s %(message)s")
+    root_logger = logging.getLogger()
+
+    file_handler = logging.FileHandler("log.txt", mode="a+", encoding="utf-8")
+    file_handler.setFormatter(log_formatter)
+    file_handler.setLevel(logging.DEBUG)
+    root_logger.addHandler(file_handler)
+
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(log_formatter)
+    console_handler.setLevel(logging.INFO)
+    root_logger.addHandler(console_handler)
+
+
 def main():
-    logging.basicConfig(level=logging.INFO, filename="log.txt", filemode="a+",
-                        format="%(asctime)-15s %(levelname)-8s %(message)s")
+    setup_log()
 
     logging.info("Hello, World!")
     cam = Cam()
