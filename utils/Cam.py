@@ -2,27 +2,19 @@
 import base64
 
 import cv2
-import time
 import logging
-from time import time
-from threading import Thread
 
 
 class Cam:
     cam = None
-    current = time()
-    previous = time()
-    delta = 0
-    thread = None
-    last_out = None
 
     def __init__(
-        self,
-        device_id=0,
-        interval=60,
-        width=1920,
-        height=1080,
-        save_loc="/home/pi/monsys/output/",
+            self,
+            device_id=0,
+            interval=60,
+            width=1920,
+            height=1080,
+            save_loc="/home/pi/monsys/output/",
     ):
         self.device_id = device_id
         self.interval = interval
@@ -70,6 +62,8 @@ class Cam:
 
         except Exception as e:
             logging.error("Unhandled exception:", e)
+            raise Exception("Unhandled exception happened on CV2: ", e)
+
 
         # saving memory
         self.release()

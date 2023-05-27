@@ -5,6 +5,8 @@ from utils.Cam import Cam
 from utils.JWTClient import JWTClient
 import time
 
+ERROR_THRESHOLD = 10
+
 
 def setup_log():
     log_formatter = logging.Formatter("%(asctime)-15s %(levelname)-8s %(message)s")
@@ -33,6 +35,7 @@ def main():
 
     logging.info("Hello, Your device id is %s", device_id)
 
+    error_count = 0
     while True:
         try:
             sensor_data = sensor.read_all()
@@ -46,8 +49,22 @@ def main():
                 'imageBase64': image_b64
             }
             client.post('log/write', req)
+
+            # decrease error count if all successes.
+            error_count -= 1
         except Exception as e:
-            logging.error("Unhandled Exception while running loop: %s", e)
+            # log error and increase error count
+            logging.error("Unhandled Exception while running loop: ", e)
+            error_count += 1
+        finally:
+            # handle under 0 situation.
+            if error_count < 0:
+                error_count = 0
+
+        # Throw exception if it's over threshold
+        if error_count > ERROR_THRESHOLD:
+            raise Exception("Errors are over threshold. Stopping now...")
+
         time.sleep(60)
 
 
