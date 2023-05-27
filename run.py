@@ -11,6 +11,7 @@ ERROR_THRESHOLD = 10
 def setup_log():
     log_formatter = logging.Formatter("%(asctime)-15s %(levelname)-8s %(message)s")
     root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG) # global log level
 
     file_handler = logging.FileHandler("log.txt", mode="a+", encoding="utf-8")
     file_handler.setFormatter(log_formatter)
