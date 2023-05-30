@@ -11,7 +11,7 @@ class JWTClient:
     access: str = None
     refresh: str = None
     header_type: str = "Bearer"
-    base_endpoint: str = "http://172.30.1.3:8080/api/v1"
+    base_endpoint: str = "http://172.30.1.3/api/v1"
     cred_path: pathlib.Path = pathlib.Path("creds.json")
 
     def __post_init__(self):
