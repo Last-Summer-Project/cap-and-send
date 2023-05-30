@@ -13,6 +13,8 @@ class JWTClient:
     header_type: str = "Bearer"
     base_endpoint: str = "http://172.30.1.3/api/v1"
     cred_path: pathlib.Path = pathlib.Path("creds.json")
+    requestsHold: int = 30
+    requests: int = 0
 
     def __post_init__(self):
         if self.cred_path.exists():
@@ -36,6 +38,12 @@ class JWTClient:
                         self.perform_auth()
         else:
             self.perform_auth()
+
+    def pre_req(self):
+        self.requests += 1
+        if self.requests > self.requestsHold:
+            self.perform_refresh()
+            self.requests = 0
 
     def get_headers(self, header_type=None):
         _type = header_type or self.header_type
@@ -102,6 +110,7 @@ class JWTClient:
         return True
 
     def get(self, endpoint):
+        self.pre_req()
         r = requests.get(self.get_endpoint(endpoint), headers=self.get_headers())
         if r.status_code != 200:
             raise Exception(f"Request not complete {r.text}")
@@ -109,6 +118,7 @@ class JWTClient:
         return data
 
     def post(self, endpoint, data):
+        self.pre_req()
         r = requests.post(self.get_endpoint(endpoint), headers=self.get_headers(), json=data)
         if r.status_code != 200:
             raise Exception(f"Request not complete {r.text}")
@@ -116,6 +126,7 @@ class JWTClient:
         return data
 
     def put(self, endpoint, data):
+        self.pre_req()
         r = requests.post(self.get_endpoint(endpoint), headers=self.get_headers(), json=data)
         if r.status_code != 200:
             raise Exception(f"Request not complete {r.text}")
