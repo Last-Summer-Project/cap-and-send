@@ -99,12 +99,12 @@ class JWTClient:
             self.clear_tokens()
             return False
         refresh_data = r.json()
-        if 'access' not in refresh_data:
+        if 'data' not in refresh_data:
             self.clear_tokens()
             return False
         stored_data = {
-            'access': refresh_data.get('access'),
-            'refresh': refresh_data.get('refresh'),
+            'access': refresh_data.get("data").get('access'),
+            'refresh': refresh_data.get("data").get('refresh'),
         }
         self.write_creds(stored_data)
         return True
