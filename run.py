@@ -15,12 +15,12 @@ def setup_log():
 
     file_handler = logging.FileHandler("log.txt", mode="a+", encoding="utf-8")
     file_handler.setFormatter(log_formatter)
-    file_handler.setLevel(logging.DEBUG)
+    file_handler.setLevel(logging.INFO)
     root_logger.addHandler(file_handler)
 
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(log_formatter)
-    console_handler.setLevel(logging.INFO)
+    console_handler.setLevel(logging.DEBUG)
     root_logger.addHandler(console_handler)
 
 
