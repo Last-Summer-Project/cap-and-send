@@ -102,11 +102,7 @@ class JWTClient:
         if 'data' not in refresh_data:
             self.clear_tokens()
             return False
-        stored_data = {
-            'access': refresh_data.get("data").get('access'),
-            'refresh': refresh_data.get("data").get('refresh'),
-        }
-        self.write_creds(stored_data)
+        self.write_creds(refresh_data)
         return True
 
     def get(self, endpoint):
